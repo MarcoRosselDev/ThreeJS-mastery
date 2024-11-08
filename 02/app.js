@@ -17,7 +17,9 @@ const camera = new THREE.PerspectiveCamera(
 camera.position.z = 5;
 //objects
 const box = new THREE.BoxGeometry(1, 1, 1);
-const mater = new THREE.MeshBasicMaterial({ color: "lightblue" });
+const mater = new THREE.MeshBasicMaterial({
+  color: "lightblue",
+});
 const cubo = new THREE.Mesh(box, mater);
 scene.add(cubo);
 //renderer
