@@ -1,11 +1,4 @@
 import * as T from "three";
-
-// we need 4 elements to create our scene and produce something on the scene
-// 1 a scene
-// 2 some objets
-// 3 a camera
-// a renderer
-
 // 1
 const scene = new T.Scene();
 // 2
@@ -14,8 +7,8 @@ const material = new T.MeshBasicMaterial({ color: 0xff0000 });
 const mesh = new T.Mesh(box, material);
 // 3
 const sizes = {
-  width: 800,
-  height: 600,
+  width: 1200,
+  height: 620,
 };
 const camera = new T.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 20);
 camera.position.z = 3;
