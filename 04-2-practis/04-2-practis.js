@@ -1,32 +1,32 @@
 import * as T from "three";
 
-// Size canvas --------------------------------------------------------------------------
+// -------------------------------------------------------------------------- Size canvas
 const size = {
   ancho: window.innerWidth,
   alto: window.innerHeight,
 };
 
-// Geometria ----------------------------------------------------------------------------
+// ---------------------------------------------------------------------------- Geometria
 const cube = new T.BoxGeometry(1, 1, 1);
 const material = new T.MeshNormalMaterial();
 const mesh = new T.Mesh(cube, material);
 
-// Camara -------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------- Camara
 const camara = new T.PerspectiveCamera(75, size.ancho / size.alto, 0.1, 20);
 camara.position.set(3, 3, 3);
 camara.lookAt(mesh.position);
 
-// Escena -------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------- Escena
 const scene = new T.Scene();
 scene.add(mesh);
 
-// Renderer -----------------------------------------------------------------------------
+// ----------------------------------------------------------------------------- Renderer
 const canvas = document.querySelector(".webgl");
 const renderer = new T.WebGLRenderer({ canvas });
 renderer.setSize(size.ancho, size.alto);
 renderer.render(scene, camara);
 
-// Evento resize ------------------------------------------------------------------------
+// ------------------------------------------------------------------------ Evento resize
 window.addEventListener("resize", () => {
   size.ancho = window.innerWidth;
   size.alto = window.innerHeight;
@@ -37,7 +37,7 @@ window.addEventListener("resize", () => {
   renderer.render(scene, camara);
 });
 
-// Evento pantalla completa -------------------------------------------------------------
+// ------------------------------------------------------------- Evento pantalla completa
 window.addEventListener("dblclick", () => {
   if (!document.fullscreenElement) {
     console.log("ingresar a pantalla completa");
@@ -47,3 +47,5 @@ window.addEventListener("dblclick", () => {
     console.log("salir de pantalla completa");
   }
 });
+
+// pregunta por responder > se puede modular los eventos y elementos como camara y escena?
