@@ -38,7 +38,12 @@ const textureLoader = new T.TextureLoader(loadingManager);
 const textura = textureLoader.load("/static/textures/door/color.jpg");
 textura.colorSpace = T.SRGBColorSpace;
 
-const textura_color = textureLoader.load("/static/textures/door/color.jpg");
+const textura_color = textureLoader.load("/static/textures/minecraft.png");
+textura_color.generateMipmaps = false;
+// ayuda a eliminar la difucion de pixeles, ayuda a optimizar la cpu
+textura_color.magFilter = T.NearestFilter;
+textura_color.minFilter = T.NearestFilter;
+textura_color.colorSpace = T.SRGBColorSpace;
 const textura_alpha = textureLoader.load("/static/textures/door/alpha.jpg");
 const textura_oclucion_ambiental = textureLoader.load(
   "/static/textures/door/ambientOcclusion.jpg"
@@ -63,7 +68,7 @@ const renderer = new T.WebGLRenderer({
 
 // --------------------------------------------------------------------------------------Geometry
 const box = new T.BoxGeometry(1, 1, 1); // width, height, depth
-const material = new T.MeshBasicMaterial({ map: textura });
+const material = new T.MeshBasicMaterial({ map: textura_color });
 const mesh = new T.Mesh(box, material);
 
 // Size
