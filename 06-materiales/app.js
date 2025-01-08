@@ -23,12 +23,15 @@ const matcapTexture = textureLoader.load("/static/textures/matcaps/1.png");
 const gradientTexture = textureLoader.load("/static/textures/gradients/3.jpg");
 
 // geometria------------------------------------------------------------------------geometria
+const material = new THREE.MeshBasicMaterial();
+//material.color = new THREE.Color(0x099098);
+material.map = doorColorTexture;
+material.wireframe = false;
+material.transparent = true;
+material.opacity = 0.3;
+
 const cubo = new THREE.BoxGeometry(1, 1, 1);
 const esfera = new THREE.SphereGeometry(1, 10, 10);
-const material = new THREE.MeshBasicMaterial();
-material.color = new THREE.Color(0x099098);
-material.map = doorColorTexture;
-material.wireframe = true;
 const mesh_cubo = new THREE.Mesh(cubo, material);
 const mesh_esfera = new THREE.Mesh(esfera, material);
 mesh_esfera.position.set(-3, 0, 0);
@@ -54,9 +57,9 @@ scene.add(mesh_cubo, mesh_esfera, ambientalLigth);
 
 // renderer --------------------------------------------------------------------------renderer
 const canvas = document.querySelector(".webgl");
-const renderer = new THREE.WebGLRenderer({ canvas });
+const renderer = new THREE.WebGLRenderer({ canvas, alpha: true });
 renderer.setSize(size.ancho, size.alto);
-
+//renderer.alpha = !renderer.alpha;
 // resize event ------------------------------------------------------------------ resize event
 window.addEventListener("resize", () => {
   console.log("se actualizo la dimencion de la pantalla");
