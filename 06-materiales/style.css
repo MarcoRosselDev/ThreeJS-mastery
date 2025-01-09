@@ -8,11 +8,17 @@
   position: fixed;
   top: 0;
   left: 0;
-  background-color: pink;
+  background-color: rgb(28, 27, 27);
+}
+button {
+  position: fixed;
 }
 
 .btn {
-  position: fixed;
   top: 30px;
   left: 50px;
+}
+
+.izquierda {
+  top: 60px;
 }

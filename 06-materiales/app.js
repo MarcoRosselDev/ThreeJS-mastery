@@ -23,12 +23,13 @@ const matcapTexture = textureLoader.load("/static/textures/matcaps/1.png");
 const gradientTexture = textureLoader.load("/static/textures/gradients/3.jpg");
 
 // geometria------------------------------------------------------------------------geometria
-const material = new THREE.MeshBasicMaterial();
+//const material = new THREE.MeshBasicMaterial();
+const material = new THREE.MeshMatcapMaterial();
 //material.color = new THREE.Color(0x099098);
-material.map = doorColorTexture;
-material.wireframe = false;
-material.transparent = true;
-material.opacity = 0.3;
+material.matcap = matcapTexture;
+//material.wireframe = false;
+//material.transparent = true;
+//material.opacity = 0.3;
 
 const cubo = new THREE.BoxGeometry(1, 1, 1);
 const esfera = new THREE.SphereGeometry(1, 10, 10);
@@ -81,3 +82,26 @@ const tick = () => {
   requestAnimationFrame(tick);
 };
 tick();
+// mover camara -------------------------------------------------------------------- mover camara
+const izquierda = document.querySelector(".izquierda");
+const derecha = document.querySelector(".derecha");
+const transicion_izquierda = () => {
+  if (camera.position.x >= -2) {
+    camera.position.x -= 0.15;
+    camera.lookAt(mesh_cubo.position);
+    requestAnimationFrame(transicion_izquierda);
+  }
+};
+const transicion_derecha = () => {
+  if (camera.position.x <= 2) {
+    camera.position.x += 0.15;
+    camera.lookAt(mesh_cubo.position);
+    requestAnimationFrame(transicion_derecha);
+  }
+};
+izquierda.addEventListener("click", () => {
+  transicion_izquierda();
+});
+derecha.addEventListener("click", () => {
+  transicion_derecha();
+});
