@@ -19,17 +19,24 @@ const doorMetalnessTexture = textureLoader.load(
 const doorRoughnessTexture = textureLoader.load(
   "/static/textures/door/roughness.jpg"
 );
-const matcapTexture = textureLoader.load("/static/textures/matcaps/1.png");
+const matcapTexture = textureLoader.load("/static/textures/matcaps/7.png");
 const gradientTexture = textureLoader.load("/static/textures/gradients/3.jpg");
 
-// geometria------------------------------------------------------------------------geometria
+// geometria ---------------------------------------------------------------------- geometria
+// MeshBasicMaterial ------------------------------------------------------ MeshBasicMaterial
 //const material = new THREE.MeshBasicMaterial();
-const material = new THREE.MeshMatcapMaterial();
 //material.color = new THREE.Color(0x099098);
-material.matcap = matcapTexture;
+//material.flatShading = true; // remarca las subdiviciones de triangulos
 //material.wireframe = false;
 //material.transparent = true;
 //material.opacity = 0.3;
+// MeshMatcapMaterial ----------------------------------------------------- MeshMatcapMaterial
+//const material = new THREE.MeshMatcapMaterial();
+//material.matcap = matcapTexture;
+// MeshDepthMaterial ------------------------------------------------------- MeshDepthMaterial
+//const material = new THREE.MeshDepthMaterial(); // oscurese la parte lejod de camara
+// MeshLambertMaterial --------------------------------------------------- MeshLambertMaterial
+const material = new THREE.MeshLambertMaterial();
 
 const cubo = new THREE.BoxGeometry(1, 1, 1);
 const esfera = new THREE.SphereGeometry(1, 10, 10);
@@ -53,8 +60,10 @@ camera.lookAt(mesh_cubo.position);
 
 // scene---------------------------------------------------------------------------------scene
 const scene = new THREE.Scene();
-const ambientalLigth = new THREE.AmbientLight("white", 2);
-scene.add(mesh_cubo, mesh_esfera, ambientalLigth);
+const ambientalLight = new THREE.AmbientLight("white", 0.1);
+const pointingLight = new THREE.PointLight("white", 3);
+pointingLight.position.set(3, 3, 3);
+scene.add(mesh_cubo, mesh_esfera, pointingLight, ambientalLight);
 
 // renderer --------------------------------------------------------------------------renderer
 const canvas = document.querySelector(".webgl");
@@ -86,8 +95,9 @@ tick();
 const izquierda = document.querySelector(".izquierda");
 const derecha = document.querySelector(".derecha");
 const transicion_izquierda = () => {
-  if (camera.position.x >= -2) {
+  if (camera.position.x >= -5) {
     camera.position.x -= 0.15;
+    camera.position.z -= 0.1;
     camera.lookAt(mesh_cubo.position);
     requestAnimationFrame(transicion_izquierda);
   }
