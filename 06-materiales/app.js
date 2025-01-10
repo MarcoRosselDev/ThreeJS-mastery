@@ -1,5 +1,5 @@
 import * as THREE from "three";
-
+import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 const textureLoader = new THREE.TextureLoader();
 const doorColorTexture = textureLoader.load("/static/textures/door/color.jpg");
 doorColorTexture.colorSpace = THREE.SRGBColorSpace;
@@ -21,7 +21,7 @@ const doorRoughnessTexture = textureLoader.load(
 );
 const matcapTexture = textureLoader.load("/static/textures/matcaps/7.png");
 const gradientTexture = textureLoader.load("/static/textures/gradients/3.jpg");
-
+//Exo29
 // geometria ---------------------------------------------------------------------- geometria
 // MeshBasicMaterial ------------------------------------------------------ MeshBasicMaterial
 //const material = new THREE.MeshBasicMaterial();
@@ -36,13 +36,30 @@ const gradientTexture = textureLoader.load("/static/textures/gradients/3.jpg");
 // MeshDepthMaterial ------------------------------------------------------- MeshDepthMaterial
 //const material = new THREE.MeshDepthMaterial(); // oscurese la parte lejod de camara
 // MeshLambertMaterial --------------------------------------------------- MeshLambertMaterial
-const material = new THREE.MeshLambertMaterial();
+//const material = new THREE.MeshLambertMaterial();
+// MeshNormalMaterial ---------------------------------------------------- MeshNormalMaterial
+//const material = new THREE.MeshNormalMaterial();
+const material = new THREE.MeshStandardMaterial();
+material.map = doorColorTexture;
+material.aoMap = doorAmbientOcclusionTexture;
+material.aoMapIntensity = 1;
+material.displacementMap = doorHeightTexture;
+material.displacementScale = 0.1;
+material.metalnessMap = doorMetalnessTexture;
+material.roughnessMap = doorRoughnessTexture;
+material.metalness = 1;
+material.roughness = 1;
+material.normalMap = doorNormalTexture;
+material.normalScale.set(0.5, 0.5);
+material.transparent = true;
+material.alphaMap = doorAlphaTexture;
 
-const cubo = new THREE.BoxGeometry(1, 1, 1);
+const cubo = new THREE.BoxGeometry(1, 1, 1, 24, 24, 24);
 const esfera = new THREE.SphereGeometry(1, 10, 10);
 const mesh_cubo = new THREE.Mesh(cubo, material);
 const mesh_esfera = new THREE.Mesh(esfera, material);
 mesh_esfera.position.set(-3, 0, 0);
+
 // test----------------------------------------------------------------------------------test
 const btn = document.querySelector(".btn");
 btn.addEventListener("click", () => {
@@ -55,20 +72,22 @@ const size = {
   alto: window.innerHeight,
 };
 const camera = new THREE.PerspectiveCamera(75, size.ancho / size.alto, 0.1, 10);
-camera.position.set(0, 0, 6);
+camera.position.set(0, 0, 2);
 camera.lookAt(mesh_cubo.position);
 
 // scene---------------------------------------------------------------------------------scene
 const scene = new THREE.Scene();
-const ambientalLight = new THREE.AmbientLight("white", 0.1);
-const pointingLight = new THREE.PointLight("white", 3);
-pointingLight.position.set(3, 3, 3);
+const ambientalLight = new THREE.AmbientLight("white", 0.3);
+const pointingLight = new THREE.PointLight("white", 20);
+pointingLight.position.set(2, 2, 1);
 scene.add(mesh_cubo, mesh_esfera, pointingLight, ambientalLight);
 
 // renderer --------------------------------------------------------------------------renderer
 const canvas = document.querySelector(".webgl");
 const renderer = new THREE.WebGLRenderer({ canvas, alpha: true });
 renderer.setSize(size.ancho, size.alto);
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.update();
 //renderer.alpha = !renderer.alpha;
 // resize event ------------------------------------------------------------------ resize event
 window.addEventListener("resize", () => {
@@ -83,12 +102,12 @@ window.addEventListener("resize", () => {
 
 // fn girar mesh ------------------------------------------------------------------fn girar mesh
 const tick = () => {
-  mesh_cubo.rotation.x += 0.001;
-  mesh_cubo.rotation.y += 0.001;
-  mesh_esfera.rotation.y += 0.001;
-  mesh_esfera.rotation.y += 0.001;
+  //mesh_cubo.rotation.x += 0.01;
+  //mesh_cubo.rotation.y += 0.01;
+  //mesh_esfera.rotation.y += 0.01;
   renderer.render(scene, camera);
   requestAnimationFrame(tick);
+  controls.update();
 };
 tick();
 // mover camara -------------------------------------------------------------------- mover camara
