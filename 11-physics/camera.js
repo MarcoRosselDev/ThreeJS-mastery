@@ -13,3 +13,8 @@ const canvas = document.querySelector(".webgl");
 const renderer = new T.WebGLRenderer({ canvas });
 
 renderer.render(scene, camera);
+
+// use stict
+// https://github.com/getify/You-Dont-Know-JS/blob/2nd-ed/get-started/ch2.md
+
+// Do you know javasScript? github book
